@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const canvasOutput = document.getElementById('canvasOutput');
 
-    canvasOutput.style.borderColor = 'white';
+    canvasOutput.style.borderColor = 'red';
 
     const videoMode = navigator.maxTouchPoints > 1 ? { 'facingMode': { 'exact': 'environment' } } : true;
 
@@ -14,19 +14,21 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     let image = new MarvinImage();
-    const width = window.innerWidth;
-    console.log('width: ', width);
-    const height = window.innerHeight;
-    console.log('height: ', height);
+    let width, height;
 
-    canvasInput.setAttribute('width', width);
-    canvasInput.setAttribute('height', height);
+    function setupView() {
+        width = window.innerWidth;
+        height = window.innerHeight;
 
-    canvasOutput.setAttribute('width', width);
-    canvasOutput.setAttribute('height', height);
+        canvasInput.setAttribute('width', width);
+        canvasInput.setAttribute('height', height);
 
-    video.setAttribute('width', width);
-    video.setAttribute('height', height);
+        canvasOutput.setAttribute('width', width);
+        canvasOutput.setAttribute('height', height);
+
+        video.setAttribute('width', width);
+        video.setAttribute('height', height);
+    }
 
     function loop() {
         let loopFrame = requestAnimationFrame(loop);
@@ -36,22 +38,16 @@ window.addEventListener('DOMContentLoaded', function() {
         ctx.restore();
 
         image.load(canvasInput.toDataURL('image/png'), function() {
-            let imageOut = new MarvinImage(image.getWidth(), image.getHeight());
-            //let imageOut = new MarvinImage(300, 400);
-            //Marvin.blackAndWhite(image, imageOut, 30);
-            Marvin.colorChannel(image, imageOut, 14, 0, -8);
-            //image.clear(0xFF000000);
-            //Marvin.prewitt(image, imageOut);
-            //Marvin.thresholding(image, imageOut, 180);
-            //Marvin.gaussianBlur(image, imageOut, 7.0);
-            //Marvin.invert(image, imageOut);
-            //Marvin.invertColors(image, image);
-            //Marvin.thresholding(image, image, 150);
-            imageOut.draw(canvasOutput);
+            //Marvin.colorChannel(image, image, 14, 0, -8);
+
+            Marvin.grayScale(image, image);
+
+            image.draw(canvasOutput);
         });
     }
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        setupView();
         canvasOutput.addEventListener('click', function() {
             if (!document.fullscreenElement) {
                 canvasOutput
@@ -63,6 +59,11 @@ window.addEventListener('DOMContentLoaded', function() {
             } else {
                 document.exitFullscreen();
             }
+            setupView();
+        });
+
+        window.addEventListener('orientationchange', function() {
+            setupView();
         });
 
         navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
