@@ -7,6 +7,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     canvasOutput.style.borderColor = 'red';
 
+    //if navigator.maxTouchPoints > 1 assume it's mobile and use front camera
+    //else is desktop and use regular user facing camera
     const videoMode = navigator.maxTouchPoints > 1 ? { 'facingMode': { 'exact': 'environment' } } : true;
 
     const mediaConfig = {
@@ -33,7 +35,7 @@ window.addEventListener('DOMContentLoaded', function() {
     function loop() {
         let loopFrame = requestAnimationFrame(loop);
         ctx.save();
-        // //ctx.globalAlpha = 0.05;
+        //ctx.globalAlpha = 0.05;
         ctx.drawImage(video, 0, 0, width, height);
         ctx.restore();
 
