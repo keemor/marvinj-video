@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', function() {
             //https://stackoverflow.com/a/25322717/343900
             window.setTimeout(function() {
                 setupView();
-            }, 300);
+            }, 500);
         });
 
         window.addEventListener('orientationchange', function() {
