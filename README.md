@@ -1,4 +1,6 @@
-# Example of using marvinj library to add effect on view from camera in JavaScript
+# marvinj and html video tag 
+
+### Example of using marvinj library to add effect on view from camera in JavaScript
 
 Possible effects provided by marvinj library https://www.marvinj.org/en/index.html 
 
