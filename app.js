@@ -39,9 +39,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
         image.load(canvasInput.toDataURL('image/png'), function() {
             //Marvin.colorChannel(image, image, 14, 0, -8);
-
             Marvin.grayScale(image, image);
-
             image.draw(canvasOutput);
         });
     }
@@ -59,11 +57,17 @@ window.addEventListener('DOMContentLoaded', function() {
             } else {
                 document.exitFullscreen();
             }
-            setupView();
+            //https://stackoverflow.com/a/25322717/343900
+            window.setTimeout(function() {
+                setupView();
+            }, 300);
         });
 
         window.addEventListener('orientationchange', function() {
-            setupView();
+            // https://stackoverflow.com/a/25322717/343900
+            window.setTimeout(function() {
+                setupView();
+            }, 300);
         });
 
         navigator.mediaDevices.getUserMedia(mediaConfig).then(function(stream) {
