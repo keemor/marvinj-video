@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     let image = new MarvinImage();
     let width, height;
-
+    let typeFilter = 1;
     function setupView() {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -41,10 +41,30 @@ window.addEventListener('DOMContentLoaded', function() {
 
         image.load(canvasInput.toDataURL('image/png'), function() {
             //Marvin.colorChannel(image, image, 14, 0, -8);
-            Marvin.grayScale(image, image);
+            switch (typeFilter) {
+                case 1:
+                    Marvin.grayScale(image, image);
+                    break;
+                case 2:
+                    Marvin.blackAndWhite(image, image, 30);
+                    break;
+                case 3:
+                    Marvin.sepia(image, image, 30);
+                    break;
+                case 4:
+                    Marvin.invertColors(image, image);
+                    break;
+            }
+
             image.draw(canvasOutput);
         });
     }
+
+    const selectFilter = document.getElementById('filter');
+
+    selectFilter.addEventListener('change', e => {
+        typeFilter = parseInt(e.target.value, 10);
+    });
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         setupView();
