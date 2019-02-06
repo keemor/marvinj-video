@@ -5,8 +5,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
     const canvasOutput = document.getElementById('canvasOutput');
 
-    canvasOutput.style.borderColor = 'red';
-
     //if navigator.maxTouchPoints > 1 assume it's mobile and use front camera
     //else is desktop and use regular user facing camera
     const videoMode = navigator.maxTouchPoints > 1 ? { 'facingMode': { 'exact': 'environment' } } : true;
